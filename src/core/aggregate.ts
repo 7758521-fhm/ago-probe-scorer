@@ -62,7 +62,7 @@ export function scoreGuide(guideInput: string, targetInput: string, profile: Pro
   if (seedMismatch > profile.maxSeedMismatch) {
     total = Math.min(total, 40);
     capped = true;
-    gateDetails.push(`种子区（2-8 位）错配 ${seedMismatch} 个（允许 ≤${profile.maxSeedMismatch}），分数封顶 40`);
+    gateDetails.push(`种子区（${profile.seedRegion[0]}-${profile.seedRegion[1]} 位）错配 ${seedMismatch} 个（允许 ≤${profile.maxSeedMismatch}），分数封顶 40`);
   }
   if (profile.requires5p && !options.fivePrimePhosphorylated) {
     total = Math.min(total, 40);

@@ -31,12 +31,14 @@ describe('scoreGuide', () => {
     expect(r.total).toBe(40);
     expect(r.capped).toBe(true);
     expect(r.grade).toBe('风险');
+    expect(r.rules[r.rules.length - 1].id).toBe('r1');
   });
 
   it('length 9 (below min) -> total 0, grade 不可用', () => {
     const r = scoreGuide('AAGGTTCCG', 'AAACGGAACCTTCCC', P, { fivePrimePhosphorylated: true });
     expect(r.total).toBe(0);
     expect(r.grade).toBe('不可用');
+    expect(r.rules[r.rules.length - 1].id).toBe('r1');
   });
 
   it('two seed mismatches capped at 40', () => {
@@ -45,6 +47,16 @@ describe('scoreGuide', () => {
     expect(r.capped).toBe(true);
     expect(r.total).toBe(40);
     expect(r.grade).toBe('风险');
+    expect(r.rules[r.rules.length - 1].id).toBe('r1');
+  });
+
+  it('length 32 (above max) -> total 0, grade 不可用', () => {
+    const longGuide = 'ACGT'.repeat(8); // 32 nt，revcomp 为自身
+    const r = scoreGuide(longGuide, 'CCCC' + longGuide + 'GGG', P, { fivePrimePhosphorylated: true });
+    expect(r.total).toBe(0);
+    expect(r.grade).toBe('不可用');
+    expect(r.capped).toBe(true);
+    expect(r.rules[r.rules.length - 1].id).toBe('r1');
   });
 
   it('no binding site -> total 0, grade 不可用', () => {
