@@ -32,6 +32,8 @@ export function align(
           mismatches.push(guide.length - 1 - j);
         }
       }
+      // deterministic order: ascending 0-based guide positions
+      mismatches.sort((a, b) => a - b);
       if (mismatches.length <= options.maxMismatch) {
         if (!bestScan || mismatches.length < bestScan.mismatches.length) {
           bestScan = { strand, start, mismatches };

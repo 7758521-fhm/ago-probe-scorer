@@ -4,7 +4,9 @@ export interface Alignment {
   guide: string;
   target: string;
   strand: Strand;
+  /** target 结合链（strandSequence 的坐标系）上的 0-based 起始位置；plus 为原 target 坐标，minus 为 reverseComplement(target) 坐标 */
   start: number;
+  /** 错配对应的 0-based guide 位置（从 guide 5' 端计），升序 */
   mismatches: number[];
 }
 

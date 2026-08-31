@@ -25,6 +25,23 @@ describe('align', () => {
     expect(a!.mismatches).toEqual([8]);
   });
 
+  it('resolves ties to the plus strand (original target orientation)', () => {
+    const a = align(guide, 'AAAATAGCTAGCCCC');
+    expect(a).not.toBeNull();
+    expect(a!.strand).toBe('plus');
+    expect(a!.mismatches).toEqual([8]);
+  });
+
+  it('maps minus-strand mismatches to ascending guide positions', () => {
+    const a = align(guide, 'GACTAGCTAA');
+    expect(a).not.toBeNull();
+    // revcomp(target) = TTAGCTAGTC, guide binds minus strand at start 0
+    // with mismatches at guide positions 8 (5' base) and 0 (3' base)
+    expect(a!.strand).toBe('minus');
+    expect(a!.start).toBe(0);
+    expect(a!.mismatches).toEqual([0, 8]);
+  });
+
   it('returns null when mismatch exceeds threshold', () => {
     expect(align(guide, 'AAAAAAAAAAAAAAAA', { maxMismatch: 2 })).toBeNull();
   });
