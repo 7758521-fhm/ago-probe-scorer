@@ -1,5 +1,5 @@
 import { reverseComplement } from '../utils/sequence';
-import { strandSequence } from './align';
+import { alignedRegion3to5 } from './align';
 import type { Alignment, ProteinProfile, RuleResult } from './types';
 
 function rule(id: string, name: string, score: number, detail: string[]): RuleResult {
@@ -52,14 +52,12 @@ export function scoreFivePrimeBase(guide: string, profile: ProteinProfile): Rule
   return rule('r4', "5' 端碱基", w * 100, [`5' 端碱基 ${first} 权重 ${w}`]);
 }
 
-export function scoreCleavageSiteBase(guide: string, alignment: Alignment, profile: ProteinProfile): RuleResult {
+export function scoreCleavageSiteBase(_guide: string, alignment: Alignment, profile: ProteinProfile): RuleResult {
   const table = profile.cleavageSiteBase;
   if (!table) {
     return rule('r5', '切割位点碱基', 100, ['未配置碱基偏好，视为中性']);
   }
-  const strand = strandSequence(alignment);
-  const region5to3 = strand.slice(alignment.start, alignment.start + guide.length);
-  const region3to5 = region5to3.split('').reverse().join('');
+  const region3to5 = alignedRegion3to5(alignment);
   const b10 = region3to5[9] ?? '';
   const b11 = region3to5[10] ?? '';
   const w = table[b10 + b11] ?? table[b10] ?? 0;

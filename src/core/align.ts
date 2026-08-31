@@ -65,3 +65,15 @@ export function align(
 export function strandSequence(a: Alignment): string {
   return a.strand === 'plus' ? a.target : reverseComplement(a.target);
 }
+
+/**
+ * 返回 guide 所结合的 target 区域，按 3'→5' 排列（列 i 的碱基与 guide 位置 i 垂直配对）。
+ * 列 i 与 guide 位置 i 的对应关系是 DuplexView 布局与 R5 切割位点定位的契约。
+ */
+export function alignedRegion3to5(a: Alignment): string {
+  return strandSequence(a)
+    .slice(a.start, a.start + a.guide.length)
+    .split('')
+    .reverse()
+    .join('');
+}

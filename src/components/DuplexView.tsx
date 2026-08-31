@@ -1,13 +1,11 @@
 import type { GuideResult } from '../core/types';
-import { strandSequence } from '../core/align';
+import { alignedRegion3to5 } from '../core/align';
 
 export default function DuplexView({ result }: { result: GuideResult }) {
   const a = result.alignment;
   if (!a) return null;
   const guide = a.guide;
-  const strand = strandSequence(a);
-  const region5to3 = strand.slice(a.start, a.start + guide.length);
-  const region3to5 = region5to3.split('').reverse().join('');
+  const region3to5 = alignedRegion3to5(a);
   const mm = new Set(a.mismatches);
 
   const guideCells = guide.split('').map((b, i) => (
