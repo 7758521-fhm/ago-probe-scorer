@@ -50,7 +50,7 @@ export default function InputPanel(p: Props) {
           <input
             type="number"
             value={p.tempC}
-            onChange={(e) => p.setTempC(Number(e.target.value))}
+            onChange={(e) => p.setTempC(e.target.value === '' ? p.tempC : Number(e.target.value))}
             min={40}
             max={100}
           />
