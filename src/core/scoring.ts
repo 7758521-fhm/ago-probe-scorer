@@ -106,15 +106,11 @@ export function scoreStability(guide: string, profile: ProteinProfile, tempC?: n
 
 function countPalindromes(seq: string): number {
   let count = 0;
-  const seen = new Set<string>();
   for (let start = 0; start < seq.length; start++) {
     for (let len = 4; len <= 8 && start + len <= seq.length; len++) {
       const window = seq.slice(start, start + len);
       if (window === reverseComplement(window)) {
-        if (!seen.has(window)) {
-          seen.add(window);
-          count++;
-        }
+        count++;
         break;
       }
     }

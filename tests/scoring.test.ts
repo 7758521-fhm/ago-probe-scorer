@@ -77,4 +77,8 @@ describe('R7 structure', () => {
   it('palindrome >= 4 bp = 75', () => {
     expect(scoreStructure('AAGGTTGATCCCCGATT').score).toBe(75);
   });
+  it('two identical palindromes at separate positions = 2 occurrences', () => {
+    // GATC 在位置 0 和 8，两处独立回文 → 每处 −25 → 100 − 50 = 50
+    expect(scoreStructure('GATCGGATGATC').score).toBe(50);
+  });
 });
