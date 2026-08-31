@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { align, alignedRegion3to5 } from '../src/core/align';
+import { align, alignedRegion3to5, mismatchColumns } from '../src/core/align';
 import { complement } from '../src/utils/sequence';
 
 describe('duplex layout contract', () => {
@@ -29,9 +29,14 @@ describe('duplex layout contract', () => {
     expect(region[8]).not.toBe(complement(a.guide[8]));
   });
 
+  it('mismatchColumns maps guide positions to highlight columns (identity, not mirrored)', () => {
+    expect(mismatchColumns(9, [8])).toEqual([8]); // 列 8 高亮，而非镜像列 0
+    expect(mismatchColumns(9, [3, 8])).toEqual([3, 8]);
+    expect(mismatchColumns(5, [2])).toEqual([2]);
+  });
+
   it('works on a minus-strand hit (pasted reversed target)', () => {
     const a = align('GCTAGCTAG', 'GGGGGCTAGCTAGTTT')!;
-    expect(a).not.toBeNull();
     const region = alignedRegion3to5(a);
     expect(region.length).toBe(a.guide.length);
     for (let i = 0; i < a.guide.length; i++) {

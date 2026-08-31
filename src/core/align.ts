@@ -67,8 +67,8 @@ export function strandSequence(a: Alignment): string {
 }
 
 /**
- * 返回 guide 所结合的 target 区域，按 3'→5' 排列（列 i 的碱基与 guide 位置 i 垂直配对）。
- * 列 i 与 guide 位置 i 的对应关系是 DuplexView 布局与 R5 切割位点定位的契约。
+ * 返回 guide 所结合的结合链区域（plus 命中为 target，minus 命中为 reverseComplement(target)），
+ * 按 3'→5' 排列；列 i 与 guide 位置 i 垂直配对（DuplexView 布局与 R5 切割位点定位的契约）。
  */
 export function alignedRegion3to5(a: Alignment): string {
   return strandSequence(a)
@@ -76,4 +76,13 @@ export function alignedRegion3to5(a: Alignment): string {
     .split('')
     .reverse()
     .join('');
+}
+
+/**
+ * 返回应高亮的列号。布局契约：列 i 与 guide 位置 i 垂直配对（见 alignedRegion3to5），
+ * 而 mismatches 是 0-based guide 位置，故高亮列 = mismatches 本身（而非镜像列 guide.length-1-i）。
+ * 范围过滤防止越界列进入高亮集。
+ */
+export function mismatchColumns(guideLength: number, mismatches: number[]): number[] {
+  return mismatches.filter((i) => i >= 0 && i < guideLength);
 }
