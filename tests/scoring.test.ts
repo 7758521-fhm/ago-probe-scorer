@@ -65,6 +65,21 @@ describe('R6 stability', () => {
   it('gcContent of all-A = 0', () => {
     expect(gcContent('AAAAAAAAAAAAAAAA')).toBe(0);
   });
+  it('Tm sub-rule: tempC near estimateTm gives 100 combined', () => {
+    // estimateTm('ACGTACGTACGTACGT') ≈ 43.4°C（GC 50%，16 nt）
+    const r = scoreStability('ACGTACGTACGTACGT', { ...P, tmEnabled: true }, 43, true);
+    expect(r.score).toBe(100);
+  });
+  it('Tm sub-rule: tempC far from estimateTm tanks the score', () => {
+    // 95°C vs Tm≈43.4 → ΔT≈52 → Tm 子分 0 → 0.5*GC(100) + 0.5*Tm(0) = 50
+    const r = scoreStability('ACGTACGTACGTACGT', { ...P, tmEnabled: true }, 95, true);
+    expect(r.score).toBe(50);
+  });
+  it('tmEnabled defaults to profile value when not passed', () => {
+    // P.tmEnabled 为 false → 只算 GC → 100
+    const r = scoreStability('ACGTACGTACGTACGT', P, 95);
+    expect(r.score).toBe(100);
+  });
 });
 
 describe('R7 structure', () => {

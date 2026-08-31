@@ -13,6 +13,7 @@ import type { Grade, GuideResult, ProteinProfile, RuleResult } from './types';
 export interface AggregateOptions {
   fivePrimePhosphorylated: boolean;
   tempC?: number;
+  tmEnabled?: boolean;
 }
 
 export function gradeForScore(score: number): Grade {
@@ -35,7 +36,7 @@ export function scoreGuide(guideInput: string, targetInput: string, profile: Pro
     scoreLength(guide, profile),
     scoreFivePrimeBase(guide, profile),
     scoreCleavageSiteBase(guide, a, profile),
-    scoreStability(guide, profile, options.tempC),
+    scoreStability(guide, profile, options.tempC, options.tmEnabled),
     scoreStructure(guide),
   ];
   const weights = profile.weights;

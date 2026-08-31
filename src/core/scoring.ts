@@ -89,11 +89,12 @@ function scoreTm(guide: string, tempC: number): number {
   return Math.max(0, 100 - (delta - 5) * 5);
 }
 
-export function scoreStability(guide: string, profile: ProteinProfile, tempC?: number): RuleResult {
+export function scoreStability(guide: string, profile: ProteinProfile, tempC?: number, tmEnabled?: boolean): RuleResult {
   const gcScore = scoreGc(guide, profile);
   const detail = [`GC 含量 ${(gcContent(guide) * 100).toFixed(1)}%（最优 ${profile.gcOptimal[0] * 100}-${profile.gcOptimal[1] * 100}%）→ ${gcScore} 分`];
   let score = gcScore;
-  if (profile.tmEnabled) {
+  const tmOn = tmEnabled ?? profile.tmEnabled;
+  if (tmOn) {
     const t = tempC ?? profile.defaultTempC;
     const tmScore = scoreTm(guide, t);
     detail.push(`Tm≈${estimateTm(guide).toFixed(1)}°C，反应温度 ${t}°C → ${tmScore} 分`);

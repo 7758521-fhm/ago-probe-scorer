@@ -65,4 +65,11 @@ describe('scoreGuide', () => {
     expect(r.total).toBe(0);
     expect(r.grade).toBe('不可用');
   });
+
+  it('tmEnabled passes through to R6', () => {
+    const r = scoreGuide(guide, target, P, { fivePrimePhosphorylated: true, tmEnabled: true, tempC: 95 });
+    const r6 = r.rules.find((x) => x.id === 'r6');
+    expect(r6).toBeDefined();
+    expect(r6!.score).toBe(50); // GC 43.75% → GC 分 100；Tm≈40.8 vs 95°C → Tm 分 0；0.5*100+0.5*0=50
+  });
 });

@@ -13,6 +13,7 @@ export default function App() {
   const [guidesInput, setGuidesInput] = useState('');
   const [tempC, setTempC] = useState(PfAgoProfile.defaultTempC);
   const [phosphorylated, setPhosphorylated] = useState(true);
+  const [tmEnabled, setTmEnabled] = useState(false);
   const [results, setResults] = useState<GuideResult[] | null>(null);
 
   const guides = useMemo(
@@ -22,7 +23,7 @@ export default function App() {
 
   const run = () => {
     if (target.trim() === '' || guides.length === 0) return;
-    setResults(guides.map((g) => scoreGuide(g, target, profile, { fivePrimePhosphorylated: phosphorylated, tempC })));
+    setResults(guides.map((g) => scoreGuide(g, target, profile, { fivePrimePhosphorylated: phosphorylated, tempC, tmEnabled })));
   };
 
   return (
@@ -42,6 +43,8 @@ export default function App() {
           setTempC={setTempC}
           phosphorylated={phosphorylated}
           setPhosphorylated={setPhosphorylated}
+          tmEnabled={tmEnabled}
+          setTmEnabled={setTmEnabled}
           onRun={run}
         />
         {results && <ResultsPanel results={results} />}

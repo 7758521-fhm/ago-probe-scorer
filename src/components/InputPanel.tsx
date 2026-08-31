@@ -11,6 +11,8 @@ interface Props {
   setTempC: Dispatch<SetStateAction<number>>;
   phosphorylated: boolean;
   setPhosphorylated: Dispatch<SetStateAction<boolean>>;
+  tmEnabled: boolean;
+  setTmEnabled: Dispatch<SetStateAction<boolean>>;
   onRun: () => void;
 }
 
@@ -62,6 +64,14 @@ export default function InputPanel(p: Props) {
             onChange={(e) => p.setPhosphorylated(e.target.checked)}
           />
           5' 磷酸化
+        </label>
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            checked={p.tmEnabled}
+            onChange={(e) => p.setTmEnabled(e.target.checked)}
+          />
+          Tm 子规则
         </label>
       </div>
       <button className="run-button" type="button" onClick={p.onRun}>运行评分</button>
