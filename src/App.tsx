@@ -4,6 +4,7 @@ import { scoreGuide } from './core/aggregate';
 import type { GuideResult, ProteinProfile } from './core/types';
 import InputPanel from './components/InputPanel';
 import ResultsPanel from './components/ResultsPanel';
+import HelpSection from './components/HelpSection';
 import './App.css';
 
 export default function App() {
@@ -45,6 +46,7 @@ export default function App() {
         />
         {results && <ResultsPanel results={results} />}
       </main>
+      <HelpSection />
     </div>
   );
 }
