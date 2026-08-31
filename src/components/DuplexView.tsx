@@ -14,7 +14,7 @@ export default function DuplexView({ result }: { result: GuideResult }) {
     <span key={i} className={`bp ${mm.has(i) ? 'mm' : ''}`}>{b}</span>
   ));
   const targetCells = region3to5.split('').map((b, i) => (
-    <span key={i} className={`bp ${mm.has(guide.length - 1 - i) ? 'mm' : ''}`}>{b}</span>
+    <span key={i} className={`bp ${mm.has(i) ? 'mm' : ''}`}>{b}</span>
   ));
   const cutPos = Math.min(10, guide.length);
   const blanks = (n: number) =>
